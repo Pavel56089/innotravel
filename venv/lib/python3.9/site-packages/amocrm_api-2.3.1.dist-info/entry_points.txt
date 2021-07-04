@@ -1,0 +1,3 @@
+[console_scripts]
+pyamogen = amocrm.v2.cli:main
+

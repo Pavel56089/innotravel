@@ -1,0 +1,6 @@
+export AMOCRM_CLIENT_ID=d8c3bf5f-a4a6-43c3-9870-d7ed2f0d3d73
+export AMOCRM_SECRET=hSfml6lMz5GViIe4KXM1c1nMTFxwQEYiO0jNvvZYngEz5Yr2HezvSATiFpoYVVom
+export AMOCRM_SUBDOMAIN=innopolistravel
+export AMOCRM_REDIRECT_URL=https://innopolistravel.com
+export AMOCRM_CODE=xxx # optional
+pyamogen > models.py
