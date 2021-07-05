@@ -48,7 +48,7 @@ def catch(update: Update, context: CallbackContext) -> None:
             telmail = ""
             for i in cntct._data['custom_fields_values']:
                 telmail += i['values'][0]['value'] + " "
-            info = "Вы назначены на эту экскурсию.\n" + cntct.name + " " + telmail +"\n"+ lead.data_ekskursii + " " + lead.vremia_ekskursii +"\n" + lead.kol_vo_detei_do_7 + " детей " + lead.kol_vo_do_18 + " до 18 " + lead.kol_vo_vzr + " врозслых\n" + lead.price + " руб"
+            info = "Вы назначены на эту экскурсию.\n" + cntct.name + " " + str(telmail) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(lead.kol_vo_detei_do_7) + " детей, " + str(lead.kol_vo_do_18) + " до 18, " + str(lead.kol_vo_vzr) + " врозслых\n" + str(lead.price) + " руб"
             update.message.reply_text(info)
             day = lead.data_ekskursii[:2]
             mon = lead.data_ekskursii[3:5]
