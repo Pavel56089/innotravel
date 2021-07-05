@@ -104,9 +104,12 @@ def spisky(update: Update, context: CallbackContext) -> None:
         except:
             print("что-то пошло не так в списках")
     s = sorted(s)
-    generate_pdf(d, s, tomorrow)
-    img = open("docs/" + str(tomorrow) + ".pdf", 'rb')
-    updater.bot.send_document(update.message.chat_id, img)
+    if len(s) == 0:
+        updater.bot.send_document(update.message.chat_id, "На завтра индвивдуальных экскурсий нет")
+    else:
+        generate_pdf(d, s, tomorrow)
+        img = open("docs/" + str(tomorrow) + ".pdf", 'rb')
+        updater.bot.send_document(update.message.chat_id, img)
 
 def check_none(param):
     if(param is None):
