@@ -53,7 +53,7 @@ def catch(update: Update, context: CallbackContext) -> None:
             day = lead.data_ekskursii[:2]
             mon = lead.data_ekskursii[3:5]
             ye = lead.data_ekskursii[6:10]
-            date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(e.vremia_ekskursii[:2]), int(e.vremia_ekskursii[3:5]), tz='Europe/Moscow')
+            date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
             date_end = date_begin.add(minutes=90)
             event = {
                 'summary': 'Экскурсия',
