@@ -44,7 +44,7 @@ def catch(update: Update, context: CallbackContext) -> None:
                                                   lead._data['custom_fields_values']]
 
             lead.update()
-            cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
+            cntct = Contact.objects.get(object_id=lead.contacts._data[0]['id'])
             telmail = ""
             for i in cntct._data['custom_fields_values']:
                 telmail += i['values'][0]['value'] + " "
