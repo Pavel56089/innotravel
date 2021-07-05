@@ -289,7 +289,10 @@ while (True):
                 req = "Новая заявка\n" + "Дата: " + e.data_ekskursii + ", Время: " + e.vremia_ekskursii + "\n" + "индвидуально\n" + "Чтобы взять экскурсию наберите /catch " + str(e.id) + " ИМЯ"
                 print(req)
                 for guide in data['guides']:
-                    updater.bot.send_message(guide, req)
+                    try:
+                        updater.bot.send_message(guide, req)
+                    except:
+                        print(guide, 'плохой id')
         except:
             print("Что-то пошло не так")
             updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
