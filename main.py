@@ -55,10 +55,11 @@ def catch(update: Update, context: CallbackContext) -> None:
             ye = lead.data_ekskursii[6:10]
             date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
             date_end = date_begin.add(minutes=90)
+            info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
             event = {
                 'summary': 'Экскурсия',
                 'location': 'Университет Иннополис',
-                'description': str(cntct.name) + " " + str(telmail) + ", гид: " + str(gidd),
+                'description': info,
                 'start': {
                     'dateTime': str(date_begin),
                     'timeZone': 'Europe/Moscow',
