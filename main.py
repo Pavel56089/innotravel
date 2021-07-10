@@ -106,7 +106,7 @@ def spisky(update: Update, context: CallbackContext) -> None:
             print("что-то пошло не так в списках")
     s = sorted(s)
     if len(s) == 0:
-        updater.bot.send_document(update.message.chat_id, "На завтра индвивдуальных экскурсий нет")
+        updater.bot.send_message(update.message.chat_id, "На завтра индвивдуальных экскурсий нет")
     else:
         generate_pdf(d, s, tomorrow)
         img = open("docs/" + str(tomorrow) + ".pdf", 'rb')
@@ -208,7 +208,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-#tokens.default_token_manager.init(code="def5020098ed1978742cd18b8a0c0a8da4fef617e348a4fe766f133a080dd78dd272ef78b15840cb2d17667d3ad406a43191e24df92e0f5a6c9406eef0e8dd84829fc510d267baaa671ca5e8f1f7b0a18912ee2a96882b23b09b760ff7ee20fdc16215916ec7081b1b1e2d846e5c3e2fda6123d72a846ac2ccb16d62700b17bf95e6acb75368331366782f564dd43bd32308ec3c7370dd0da4659276e93e4c186cf5d546e07eebc6cd54f4897abb024c45ac4ea42eb515ad432e8d4a35d87da9924f9150df2f9925ee37d7e97a8c8f0960a2563c7ca723dd02217944287419a6ae3632883e54d0fae273f16fd718d80a9360490a7829da67eb85a637c58eba48407f1e201403952efb6d6fc536059e1d15de96ebefd9ca874cd95c9ef11a68b21c0545d6b7908a2e8c816e29406d9b22601503602d379acc21e0375be60ba724912df5de88c159397d94536e5b413da1881c917841341aa8984dd54ca07856067b5e6f9050f63ddc9268f6b17435c1b4527508eafc5e362f174b3dc32f8b0edf1ba8303574643963e460709b557403c45671a5115352dd2723aa5eba41cd5df85116231677cfe4e34ff9669649f559776d634b75bbac0d08b082e3a34ac09b2ca5e88d28ef", skip_error=False)
+#tokens.default_token_manager.init(code="def5020092f9de02324bd2e4ce84428524d647c75106dfba2a9122f328ef6c66b5d842fc0d70a3b8b135be07f7df83e8dbebbba0c2cd3cc6abf373023856838597fc45898d8ecb9f059be6f0fe940205e40c42eb37d764388b721e95be79bf28364af79f2db4a282c5efa0fce86185a27facab0dfb004aed82ea608c4a4860b12354059bf75afed01899f2d63faa6acf7218b331e72e8a118f530bae4c9780aa74cae1b2bf9b3908ea7b3b4bf7f537ab0523d9648ea8a0515141421c1296162fd418a9cd7b95da7e4dba4f16b7d97b6c822f47053624a8fb27fa993c90b2826df073c17500a21189bcb71ebfeccd0fc4c6f13f3488987b8bab99bc8c9f6e7880f87924a4c71ffb57e9d7c32c961c318d17a9ac152971eaa3a66870310683436ed7c1aa10ff05b7d233a718b74f2de6455886820ee689cbba7767c57c8e21c42767198a7cf94a6e62715c502b36d1fdbd7721ddbeb570a4c35b4e15fea9a46645b2364c6682645044d6b7c4bebe733d393586700c17e503e590aa7cdd7531261a79ea84104f115eacdbbaf39f9d20b7e9a01cbfe56b8ac9806f3c60902a6b89d90dc067829b9c61ec3e31cb30a51548b8cf4ab8130ca600090a121250c1ce2fdd25dc410ca4", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -309,7 +309,10 @@ while (True):
                 e.update()
         except:
             print("что-то пошло не так в в переносе из принимающего гида в списки")
-    time.sleep(60*60)
+    for i in range (0, 4):
+        time.sleep(60*15)
+        pause = Lead.objects.filter(query="назначен принимающий гид")
+
 updater.idle()
 
 
