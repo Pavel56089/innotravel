@@ -48,7 +48,7 @@ def catch(update: Update, context: CallbackContext) -> None:
             telmail = ""
             for i in cntct._data['custom_fields_values']:
                 telmail += i['values'][0]['value'] + " "
-            info = "Вы назначены на эту экскурсию.\n" + cntct.name + " " + str(telmail) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
+            info = "Гид "+ gidd + " назначен на эту экскурсию.\n" + cntct.name + " " + str(telmail) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
             update.message.reply_text(info)
             day = lead.data_ekskursii[:2]
             mon = lead.data_ekskursii[3:5]
@@ -106,7 +106,7 @@ def spisky(update: Update, context: CallbackContext) -> None:
             print("что-то пошло не так в списках")
     s = sorted(s)
     if len(s) == 0:
-        updater.bot.send_message(update.message.chat_id, "На завтра индвивдуальных экскурсий нет")
+        updater.bot.send_message(update.message.chat_id, "На завтра индивдуальных экскурсий нет")
     else:
         generate_pdf(d, s, tomorrow)
         img = open("docs/" + str(tomorrow) + ".pdf", 'rb')
@@ -209,7 +209,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-#tokens.default_token_manager.init(code="def502003107ab3f9eb0215d454371f06196e1387f3864492bb2e3890ff7bba5b90cf8cfa5db9127b9acb7a245181f99f1dfa3ea8d9347416fec86b19d2e9daab98994ef0532d0516000a31bcd763655642e286bdddbae55901586e3544c4658796e6148266ea81656aa5f6fbeac7b28f14188dd86a0735e67774efad5f98c9e36498452e0c9f6a0ce461be3733f382edd07ec15e46f7ac5bcdf351c07db55a57174456cdd71797c4cdba4fe083cb4a64d01aec009e9492acb9fbf5e8b2dee6213667f74a5debf2db5552d473c9bf0da17c85408a62a8ee92044803cd578599581e42210f545cba3fb07d7fe44b660fd279730d25f401767e5c50c8d9327f6b5c4a110a26e95f51198221380ef1227ae9cc11b9b73aea76a4bfccf8656ff150068d5f453a41c6a1a4f4007b8dead6285f7adb97b7b780a69af3060aff477735dcb4b451dfe027e59458994ccb08e86c4d8b2f22689b5eee2b60c467d4e2248f3ba1c1d70a147a253f05f5e46d3cfa188986d8ab2d81826307d9c99a299fda124e04f796770478223f5151d5e000ce9388a49f0fa4d7b93665bf04c06000c16fe8a69637e880af4859f0b929457a99adb0f594098ab8339a9f10a294a9509a12c52f37dedcd", skip_error=False)
+tokens.default_token_manager.init(code="def5020011824d5be4165a0fc9a8912dbffcebe56e18a5c9b5455cf5ff69e83b74a7d6f7c7e8dc82399016e8362502ca6e20c61c9cfbb5621a5cba0b23405496a75d7de661094a57a90bf7d93a9c82923596d75cdcd63644f4fbe66e013140d0c97673af0c5fffdf106589a29c6042432b4bf0eb861a07aa8455160bc68c4b8cdb9a12ef7530cb409681cd043e5c6e7abf69bd7f6ed7741352eeb7b7b5bc429d166b580eef384d1ca9d3510bef14493a149172b419861a837da47ca1bfe09df07b8b36c8451aeb7cc4c97d24b2e96554d62edc415875f2c411be7ac0600c09cba55f241d3d924b366cab4c1ef0537a8296f72e79e5ebcdc412dd8abd148468297dcf89922eeccb4bd879a1ac58b28f942f714d9492b3652e78c07d4a4bc57a41c27bf6e69b54048a8ee220ef4424f78c7fc96cbebee60ba12b88cbbe266f66686bcf92973093934e5a3af730b5db833f31f21efc122a7ca84783002a8dd05f24a8a8c22b65cf002ad772fb877e7bb06b3fb389a6ebf27201da74c9fa8e6a6614d27726cf3738730490cbe6a20daf8a45c2f452adafaedbbb0896de150285283b044412474b60cfc0f83ab1e9e87cc9aedf5c3986ae5dcbd5b6805f8990bbb368dc92091f58", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
