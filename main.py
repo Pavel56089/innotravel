@@ -73,8 +73,10 @@ def catch(update: Update, context: CallbackContext) -> None:
             event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                             body=event).execute()
             print('Event created: %s' % (event.get('htmlLink')))
+            print('гид назначен')
         else:
             update.message.reply_text("Уже забрали:(")
+            print('гид не назначен')
 
         print(lead.name)
 
@@ -91,9 +93,7 @@ def spisky(update: Update, context: CallbackContext) -> None:
         try:
             print("Смотрим", e.name)
             if not (e.spiski is None):
-                print(e.data_ekskursii, e.vremia_ekskursii)
                 # date = list(map(int, e.data_ekskursii.split('.')))
-                print(e.data_ekskursii[:5], "==", tomorrow)
                 if (e.data_ekskursii[:5] == tomorrow):
                     spisok = e.spiski.split(', ')
                     if e.vremia_ekskursii in s:
@@ -107,10 +107,12 @@ def spisky(update: Update, context: CallbackContext) -> None:
     s = sorted(s)
     if len(s) == 0:
         updater.bot.send_message(update.message.chat_id, "На завтра индивдуальных экскурсий нет")
+        print("списков нет")
     else:
         generate_pdf(d, s, tomorrow)
         img = open("docs/" + str(tomorrow) + ".pdf", 'rb')
         updater.bot.send_document(update.message.chat_id, img)
+        print("списки высланы")
 
 def check_none(param):
     if(param is None):
@@ -209,7 +211,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-#tokens.default_token_manager.init(code="def5020011824d5be4165a0fc9a8912dbffcebe56e18a5c9b5455cf5ff69e83b74a7d6f7c7e8dc82399016e8362502ca6e20c61c9cfbb5621a5cba0b23405496a75d7de661094a57a90bf7d93a9c82923596d75cdcd63644f4fbe66e013140d0c97673af0c5fffdf106589a29c6042432b4bf0eb861a07aa8455160bc68c4b8cdb9a12ef7530cb409681cd043e5c6e7abf69bd7f6ed7741352eeb7b7b5bc429d166b580eef384d1ca9d3510bef14493a149172b419861a837da47ca1bfe09df07b8b36c8451aeb7cc4c97d24b2e96554d62edc415875f2c411be7ac0600c09cba55f241d3d924b366cab4c1ef0537a8296f72e79e5ebcdc412dd8abd148468297dcf89922eeccb4bd879a1ac58b28f942f714d9492b3652e78c07d4a4bc57a41c27bf6e69b54048a8ee220ef4424f78c7fc96cbebee60ba12b88cbbe266f66686bcf92973093934e5a3af730b5db833f31f21efc122a7ca84783002a8dd05f24a8a8c22b65cf002ad772fb877e7bb06b3fb389a6ebf27201da74c9fa8e6a6614d27726cf3738730490cbe6a20daf8a45c2f452adafaedbbb0896de150285283b044412474b60cfc0f83ab1e9e87cc9aedf5c3986ae5dcbd5b6805f8990bbb368dc92091f58", skip_error=False)
+#tokens.default_token_manager.init(code="def50200b3d346fba742a1424abc8c47a462e78095479d182777101810712f0d20b8f9fe38f699855098d02e702973ef280579115cf5a591c8a36706692eebd06737c3bd2ff704e91b3825a583a6c4a70820530630123aa81234a18d2611952cb30bd685fbd1570c15116b2aa8973ec78e6f2d46c846d273356dbfb7582809f3c2b045842b9a41e1bfadc2b92780c54655dfad3868917871e56bee4461b1b96eabb3316b66993633cce2f27d4fb03e40f79515124248542f8a54fbcde0119a6f69365ddee847da014ea4389d667af3bdbc6510e74626d866293f90037cbfcb0d1f2b9c1bb06e1b1651b60377f3b5ae06e9218f0e9e6672342a892544f08785576ffb40bda040887f810dd66b92260afe2ec23828a1149eb4024a0c8ff5e0af66b48c020510f6eaf99c348b3e76246d73134b5f07d0da13d0c98876e06745e8aaf1a4ca8ff8932da77514345717093c565509d72cfa077640521a4dcb61a60ef2e772e15b32a341430f8a2917b3cbc161558782bedb5c81c4c153b7b0e4ce4a83f1d01ad013f08b11b576f927d7d6be3e05a0653d81d7dbbadfe5ac676e62ee4e104260dda1b16bc17d38b5af7f60eb00d04bdf4cad1bd606dc4b0460ea2b86048917e9f9a0", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -310,8 +312,8 @@ while (True):
                 e.update()
         except:
             print("что-то пошло не так в в переносе из принимающего гида в списки")
-    for i in range (0, 4):
-        time.sleep(60*15)
+    for i in range (0, 6):
+        time.sleep(60*10)
         pause = Lead.objects.filter(query="назначен принимающий гид")
 
 updater.idle()
