@@ -106,7 +106,7 @@ def spisky(update: Update, context: CallbackContext) -> None:
             print("что-то пошло не так в списках")
     s = sorted(s)
     if len(s) == 0:
-        updater.bot.send_message(update.message.chat_id, "На завтра индивдуальных экскурсий нет")
+        updater.bot.send_message(update.message.chat_id, "На завтра индивидуальных экскурсий нет")
         print("списков нет")
     else:
         generate_pdf(d, s, tomorrow)
@@ -211,7 +211,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-tokens.default_token_manager.init(code="def502002776112717b1793e8013242fad0a5603f7760a3e189789a5f9c5a25936f2465e9f7f5de30753ab84cfeba8f7425722e9f8edc7f1d9fbcf817d478084262d5fb61d635008fc3dbffa7d0fd1d8f7458d38381a06f054cba0f2859edb9f518c78e61e39c30ad1f61063375bd9f0278dffa5aeea03fddbb452b9daf08ff3c622c588e6c296c4dae0622ae42a1e10ec4739305c2ca501467a7e4951959afd454237c7ecc4d8e7dd0d4f2b4ddb17fe2292385a0a60be5a548e1ac947e1bf6f8adda315bec93bcde676643056eae8dff98e037a59fcb2943970a3b772b8a4a3919579239e1aff8b4d18783b60b473598ac4500f59670ef06e0873eb11b7b3fe9361505800f0f1534c88713f76b96b28897b76c2abd9bd12c5028385d9416765135292a19aefcbe4bce89154f8af7c65b46e07c784db6dc3f399c2e3dccde45a08a8167813ef54e6ebf0bf5d0652be54fb70112e5f91b4f81737373d68b332401a36faf8aeb0a86e6686379c7541e581ab1451786236f0966d83ea9c6b1e19a36f69d18fbc306af1779e8093c721285c39e62aef33bbec436a2bf5e2701791f3f010b9eeff147e8bd62e3a0235fd3c50f541c3e99bc325eab61896d689afc87eb24d7d629b", skip_error=False)
+#tokens.default_token_manager.init(code="def502002776112717b1793e8013242fad0a5603f7760a3e189789a5f9c5a25936f2465e9f7f5de30753ab84cfeba8f7425722e9f8edc7f1d9fbcf817d478084262d5fb61d635008fc3dbffa7d0fd1d8f7458d38381a06f054cba0f2859edb9f518c78e61e39c30ad1f61063375bd9f0278dffa5aeea03fddbb452b9daf08ff3c622c588e6c296c4dae0622ae42a1e10ec4739305c2ca501467a7e4951959afd454237c7ecc4d8e7dd0d4f2b4ddb17fe2292385a0a60be5a548e1ac947e1bf6f8adda315bec93bcde676643056eae8dff98e037a59fcb2943970a3b772b8a4a3919579239e1aff8b4d18783b60b473598ac4500f59670ef06e0873eb11b7b3fe9361505800f0f1534c88713f76b96b28897b76c2abd9bd12c5028385d9416765135292a19aefcbe4bce89154f8af7c65b46e07c784db6dc3f399c2e3dccde45a08a8167813ef54e6ebf0bf5d0652be54fb70112e5f91b4f81737373d68b332401a36faf8aeb0a86e6686379c7541e581ab1451786236f0966d83ea9c6b1e19a36f69d18fbc306af1779e8093c721285c39e62aef33bbec436a2bf5e2701791f3f010b9eeff147e8bd62e3a0235fd3c50f541c3e99bc325eab61896d689afc87eb24d7d629b", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -256,7 +256,7 @@ while (True):
     leads = Lead.objects.filter(query="Первый контакт")
     statuses = []
     count = 0
-    print(leads)
+    print("начало цикла")
     for e in leads:
         try:
             check_kol_none()
