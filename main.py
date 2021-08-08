@@ -55,7 +55,7 @@ def catch(update: Update, context: CallbackContext) -> None:
             ye = lead.data_ekskursii[6:10]
             date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
             date_end = date_begin.add(minutes=90)
-            info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
+            info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб\n" + lead.spiski
             event = {
                 'summary': 'Экскурсия',
                 'location': 'Университет Иннополис',
@@ -211,7 +211,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-tokens.default_token_manager.init(code="def502007f467c6240b817e1c4bed787e1b3eee87c913c7b790a57cfefe9df6184fe534b1295d1adab8f308d05c8006335fa920ec04aa99aad85158f664cb92524fc728456b1b5d3bd32e0e0e9bfa20bc76dadfda1e57943d1b4ee4196fbcc2dd3166363991f8a4b4aac3cfcb1cc33405c9abf25ff4d4063a599ebc377770797430a59e38952b6f0e6f9fba892e899487b2a147474e46f381dce8da66fec61c0ec227348caa303124675a9b08a2f71772724db02cac3e302981622b6f842803802f2ce59cae98669419be09a116c3fc01cb291a514a05970a847d1c42f8afb4afe62969b5ae10ec877702688ab5d8183ebdc20875365129372d32fb47828c1811af40e16f3881b06dd30cf1c292f24de332f3e6ae04dce972769c6e9b9bfdfd6713fc2d48dfa091ed6ef783b06783614ff38750b059062f259a7bfdf0bd4fe3cfd5279acce26a264267108204e7f5585997691e21cf2fdabb2a80a4532efe5fdfd08505a380f14a9da898cf04fa69255e374b665115f9aed0b47449703f166adaeda76642abd6eb5de423691015b209159461bdadf2c97f2e3c1e0bd2d02dbc43fd945a26ec8a09500865c2bb31f6dcbace473fc7a195b620578d1a1d9d13fbd64c420855b", skip_error=False)
+tokens.default_token_manager.init(code="def50200acb0ea923ca91b1f83228145ea81d764c1da31b2fb93ed645c860d1a9bec25e1287c473d6a57e26756d6e2672cf2d991db411dfa130b3f1d4b494408a8c5c9440c32b54cab321565442e4f1a90fc36dfde7d760ac5f6619f075180a887439cf612b69dc72d25e461cabafc862614a1be3aa2a22633248ac91de90858b1d72eb3b7363929907bd1cb1f6cdd811d6cb88001a1a1254eeb5815b302302b5ee6c177b3be0c7ae41fe3266ed8e77cf7c4fedd09b1ba9bd16d6c5bcaeb9f6536097f44c5f9cc936ba5a4660459651aca9fed3419d54349f534a39f196c849e979a7748f44c1602ed079204ea04a5442695b056d897884ec4d73ff04db0a6ce7ad5ec36a8c88d4b04f416a57d626c1e77c99013facbad15e7bab0260e07ba0f7aba42a632cd80de42a9634bd860095c15b5abd86af5695e38ba500543ca29964615d6c1295160a7ecc337a4682b98839143edc0d7ab90d23d4f8e700aa82637005e3fa4eceac6a170c0065b71f2d6da73d805d3f5a1f486db9fdddde9df6af7f0f54a23b94465480649aee7398dbfbd49b734e95f720c70b126bc037d2e4a17a7166e7d5ab86f147766a34bd1794e5ca5fe3f6990943002373e47b49f9087da3c40761030", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
