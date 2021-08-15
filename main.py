@@ -22,70 +22,71 @@ def id(update: Update, context: CallbackContext) -> None:
     """Sends explanation on how to use the bot."""
     update.message.reply_text(update.message.chat_id)
 
-def catch(update: Update, context: CallbackContext) -> None:
-    """Add a job to the queue."""
-    chat_id = update.message.chat_id
-    try:
-        # args[0] should contain the time for the timer in seconds
-        id = int(context.args[0])
-        gidd = context.args[1]
-        lead = Lead.objects.get(query=id)
-        if (lead.gid is None):
-            lead.gid = gidd
-            for elem in lead._data['custom_fields_values']:
-                if (elem['field_id'] == 119783) or (elem['field_id'] == 396957) or (elem['field_id'] == 119781) or (
-                        elem['field_id'] == 119779):
-                    elem['field_type'] = 'numeric'
-                elif((elem['field_id'] == 596561)):
-                    elem['field_type'] = 'text'
-            lead.status = 'назначен принимающий гид'
-            lead._data['custom_fields_values'] = [del_field(elem) if elem['field_type'] == 'select' else elem for elem
-                                                  in
-                                                  lead._data['custom_fields_values']]
-
-            lead.update()
-            cntct = Contact.objects.get(object_id=lead.contacts._data[0]['id'])
-            telmail = ""
-            for i in cntct._data['custom_fields_values']:
-                telmail += i['values'][0]['value'] + " "
-            info = "Гид "+ gidd + " назначен на эту экскурсию.\n" + cntct.name + " " + str(telmail) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
-            update.message.reply_text(info)
-            day = lead.data_ekskursii[:2]
-            mon = lead.data_ekskursii[3:5]
-            ye = lead.data_ekskursii[6:10]
-            date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
-            date_end = date_begin.add(minutes=90)
-            info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб\n" + lead.spiski
-            event = {
-                'summary': 'Экскурсия',
-                'location': 'Университет Иннополис',
-                'description': info,
-                'start': {
-                    'dateTime': str(date_begin),
-                    'timeZone': 'Europe/Moscow',
-                },
-                'end': {
-                    'dateTime': str(date_end),
-                    'timeZone': 'Europe/Moscow',
-                },
-            }
-
-            event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
-                                            body=event).execute()
-            print('Event created: %s' % (event.get('htmlLink')))
-            print('гид назначен')
-        else:
-            update.message.reply_text("Уже забрали:(")
-            print('гид не назначен')
-
-        print(lead.name)
-
-
-    except (IndexError, ValueError):
-        update.message.reply_text('Что-то пошло не так. Попробуйте снова')
+# def catch(update: Update, context: CallbackContext) -> None:
+#     """Add a job to the queue."""
+#     chat_id = update.message.chat_id
+#     try:
+#         # args[0] should contain the time for the timer in seconds
+#         id = int(context.args[0])
+#         gidd = context.args[1]
+#         lead = Lead.objects.get(query=id)
+#         if (lead.gid is None):
+#             lead.gid = gidd
+#             for elem in lead._data['custom_fields_values']:
+#                 if (elem['field_id'] == 119783) or (elem['field_id'] == 396957) or (elem['field_id'] == 119781) or (
+#                         elem['field_id'] == 119779):
+#                     elem['field_type'] = 'numeric'
+#                 elif((elem['field_id'] == 596561)):
+#                     elem['field_type'] = 'text'
+#             lead.status = 'назначен принимающий гид'
+#             lead._data['custom_fields_values'] = [del_field(elem) if elem['field_type'] == 'select' else elem for elem
+#                                                   in
+#                                                   lead._data['custom_fields_values']]
+#
+#             lead.update()
+#             cntct = Contact.objects.get(object_id=lead.contacts._data[0]['id'])
+#             telmail = ""
+#             for i in cntct._data['custom_fields_values']:
+#                 telmail += i['values'][0]['value'] + " "
+#             info = "Гид "+ gidd + " назначен на эту экскурсию.\n" + cntct.name + " " + str(telmail) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб"
+#             update.message.reply_text(info)
+#             day = lead.data_ekskursii[:2]
+#             mon = lead.data_ekskursii[3:5]
+#             ye = lead.data_ekskursii[6:10]
+#             date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
+#             date_end = date_begin.add(minutes=90)
+#             info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб\n" + lead.spiski
+#             event = {
+#                 'summary': 'Экскурсия',
+#                 'location': 'Университет Иннополис',
+#                 'description': info,
+#                 'start': {
+#                     'dateTime': str(date_begin),
+#                     'timeZone': 'Europe/Moscow',
+#                 },
+#                 'end': {
+#                     'dateTime': str(date_end),
+#                     'timeZone': 'Europe/Moscow',
+#                 },
+#             }
+#
+#             event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
+#                                             body=event).execute()
+#             print('Event created: %s' % (event.get('htmlLink')))
+#             print('гид назначен')
+#         else:
+#             update.message.reply_text("Уже забрали:(")
+#             print('гид не назначен')
+#
+#         print(lead.name)
+#
+#
+#     except (IndexError, ValueError):
+#         update.message.reply_text('Что-то пошло не так. Попробуйте снова')
 
 def spisky(update: Update, context: CallbackContext) -> None:
-    tomorrow = pendulum.tomorrow('Europe/Moscow').format('DD.MM')
+    tomorrow = context.args[0]
+    print(tomorrow)
     leads = Lead.objects.filter(query="списки высланы")
     d = dict()
     s = set()
@@ -211,7 +212,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-#tokens.default_token_manager.init(code="def50200c4c430d1a889ef810f25c20ff18e5d756be61f1b3307aa6b08f80a5aebfdfac0c10a31b4e4e7d4b3bc0a4289e540c9d8f79b62ef76c664dadbc8abb297e96811a73bf2201af61b907f0390d68e0f54672230b4db58619dedaf44340cdc0d48f0ee2c6edc9d271d67950af74e865e463183a3355e6624f18cc5413bb142f27aa3dbb5fae1e4459943f873d5f6ebb0887706910039b2a8769ea5e6eeacfd72bdd37088e7d920ece2efdd13e66a01aec3831ba589f8dfacfa2a122bf1992fcd41d7eb86de537bc955f7e6568bdcb03c3f74a1eaa26cfc1114619f1562b7a8cba8b1053bd0c21210be8e27150e803173224e4b69c77995b8126c888357ffe8dc4ff6579dce22ddf73137cb9d3d326724f4d87f7c751a5071c7f377fa1fd51c47887c0ce9f43d85939150f9e1d262b3e58ff9617ad73e4fb9c005dc56f01e2d2542e264fc86a94b3874e37594b73dd5c2c784819c12c628015717e130a12154a8fd0a3e9cc5aa3cbf182866d5e374f47c791715a22308b7ecc8c18aa5936c1464b677f2070137ee1bb6b1bf84516d146800508d4e09a758f590d8b802788fab072232a29bf18df1d3783931b346af2c6a7d58d566070fa4f5985e0b74106d4c672bada0", skip_error=False)
+#tokens.default_token_manager.init(code="def50200c197ef3a6dfb25972d3da2a9554f296c448bf17f0050293f6c760340a96c8e325b34a9e4afcb1f61e73f0fd9c550ebf8df395427041c1dc1f0b9be53c356af45609347b05a42b1508481f169fa3eb156f7b2fb66db0bde99a72c020c72327a3da0ff591b6000053b067c8b8976f12fe0bf522690afee989df51bb6793448fb4dfa3cadec0b8d8a92bca755d10ea79f2bed606f9f8888b989745db55367be81a23b61f8825a32134cac8f4c0eda7cc6297e2badd39e1f623248bd5ec8ef1986d1a982c576ce19b8b69a3846ba25d6614945bba04110e7fcc470e00e1bbef96c2e1c3e74c996fadd96b036abb21657a1e41082034ef096b5390067c2c7a067a2d8848a634266450efd450bea23a701e61c45599b31961995d5d8e90437504c55708cb8340a110fe6ece0fb8b4621e017f6c9f1ee65c5feb27fb3671ed88ee3225d722935376b97ba1e6b73c31e1d3acc410f35301882ea8f4b9fe71c12256bb86e704aecfffd2ca2656b81d6c451818a57c75560b7a94f93f40a288cd038ef1c5c15b9deec866141446b64b8b05d1928a96534df6e3a7a5d1200f89c3e1a4b0c0a71ffc63ab65e3fb08a9f271b286247008f5ee8f53ff665bce723d99e4b41943deb", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -243,7 +244,6 @@ print(data)
 updater = Updater('1708795844:AAHBwps-tV-yWIQtzyv7_qMIcRChfsLCzUk')
 dispatcher = updater.dispatcher
 dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(CommandHandler("catch", catch))
 dispatcher.add_handler(CommandHandler("id", id))
 dispatcher.add_handler(CommandHandler("spisky", spisky))
 updater.start_polling()
@@ -289,14 +289,45 @@ while (True):
     for e in leads:
         try:
             cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
-            if e.tip_individ.value == "индивидуально":
-                req = "Новая заявка\n" + "Дата: " + e.data_ekskursii + ", Время: " + e.vremia_ekskursii + "\n" + "индвидуально\n" + "Чтобы взять экскурсию наберите /catch " + str(e.id) + " ИМЯ"
+            if e.tip_individ.value == "присоединюсь к группе":
+                req = "Новая заявка\n" + "Дата: " + e.data_ekskursii + ", Время: " + e.vremia_ekskursii + "\n" + "к группе\n" + "id заявки:  " + str(e.id)
                 print(req)
                 for guide in data['guides']:
                     try:
                         updater.bot.send_message(guide, req)
                     except:
                         print(guide, 'плохой id')
+                e.gid = "Гид"
+                cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
+                telmail = ""
+                for i in cntct._data['custom_fields_values']:
+                    telmail += i['values'][0]['value'] + " "
+                try:
+                    day = e.data_ekskursii[:2]
+                    mon = e.data_ekskursii[3:5]
+                    ye = e.data_ekskursii[6:10]
+                    date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
+                    date_end = date_begin.add(minutes=90)
+                    info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб\n" + lead.spiski
+                    event = {
+                        'summary': 'Экскурсия',
+                        'location': 'Университет Иннополис',
+                        'description': info,
+                        'start': {
+                            'dateTime': str(date_begin),
+                            'timeZone': 'Europe/Moscow',
+                        },
+                        'end': {
+                            'dateTime': str(date_end),
+                            'timeZone': 'Europe/Moscow',
+                        },
+                    }
+
+                    event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
+                                                    body=event).execute()
+                    print('Event created: %s' % (event.get('htmlLink')))
+                except:
+                    print("Что-то пошло не так c календарем")
         except:
             print("Что-то пошло не так")
             updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
