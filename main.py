@@ -287,46 +287,42 @@ while (True):
     leads = Lead.objects.filter(query="согласованы дата и время")
     time.sleep(10)
     for e in leads:
-        try:
+        cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
+        if e.tip_individ.value == "присоединюсь к группе":
+            telmail = ""
             cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
-            if e.tip_individ.value == "присоединюсь к группе":
-                telmail = ""
-                cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
-                for i in cntct._data['custom_fields_values']:
-                    telmail += i['values'][0]['value'] + " "
-                info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
-                print(req)
-                for guide in data['guides']:
-                    try:
-                        updater.bot.send_message(guide, info)
-                    except:
-                        print(guide, 'плохой id')
-                e.gid = "Гид"
-                day = e.data_ekskursii[:2]
-                mon = e.data_ekskursii[3:5]
-                ye = e.data_ekskursii[6:10]
-                date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(e.vremia_ekskursii[:2]), int(e.vremia_ekskursii[3:5]), tz='Europe/Moscow')
-                date_end = date_begin.add(minutes=90)
-                event = {
-                    'summary': 'Экскурсия',
-                    'location': 'Университет Иннополис',
-                    'description': info,
-                    'start': {
-                        'dateTime': str(date_begin),
-                        'timeZone': 'Europe/Moscow',
-                    },
-                    'end': {
-                        'dateTime': str(date_end),
-                        'timeZone': 'Europe/Moscow',                        },
-                    }
-                e.status = 'назначен принимающий гид'
-                event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
+            for i in cntct._data['custom_fields_values']:
+                telmail += i['values'][0]['value'] + " "
+            info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
+            print(req)
+            for guide in data['guides']:
+                try:
+                    updater.bot.send_message(guide, info)
+                except:
+                    print(guide, 'плохой id')
+            e.gid = "Гид"
+            day = e.data_ekskursii[:2]
+            mon = e.data_ekskursii[3:5]
+            ye = e.data_ekskursii[6:10]
+            date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(e.vremia_ekskursii[:2]), int(e.vremia_ekskursii[3:5]), tz='Europe/Moscow')
+            date_end = date_begin.add(minutes=90)
+            event = {
+                'summary': 'Экскурсия',
+                'location': 'Университет Иннополис',
+                'description': info,
+                'start': {
+                    'dateTime': str(date_begin),
+                    'timeZone': 'Europe/Moscow',
+                },
+                'end': {
+                    'dateTime': str(date_end),
+                    'timeZone': 'Europe/Moscow',                        },
+                }
+            e.status = 'назначен принимающий гид'
+            event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
-                print('Event created: %s' % (event.get('htmlLink')))
-                e.update()
-        except:
-            print("Что-то пошло не так")
-            updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
+            print('Event created: %s' % (event.get('htmlLink')))
+            e.update()
     time.sleep(10)
     leads = Lead.objects.filter(query="назначен принимающий гид")
     for e in leads:
