@@ -319,10 +319,11 @@ while (True):
                         'dateTime': str(date_end),
                         'timeZone': 'Europe/Moscow',                        },
                     }
-                lead.status = 'назначен принимающий гид'
+                e.status = 'назначен принимающий гид'
                 event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
                 print('Event created: %s' % (event.get('htmlLink')))
+                e.update()
         except:
             print("Что-то пошло не так")
             updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
