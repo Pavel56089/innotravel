@@ -294,7 +294,6 @@ while (True):
             for i in cntct._data['custom_fields_values']:
                 telmail += i['values'][0]['value'] + " "
             info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
-            print(req)
             for guide in data['guides']:
                 try:
                     updater.bot.send_message(guide, info)
