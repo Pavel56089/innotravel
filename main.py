@@ -302,32 +302,28 @@ while (True):
                 telmail = ""
                 for i in cntct._data['custom_fields_values']:
                     telmail += i['values'][0]['value'] + " "
-                try:
-                    day = e.data_ekskursii[:2]
-                    mon = e.data_ekskursii[3:5]
-                    ye = e.data_ekskursii[6:10]
-                    date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(lead.vremia_ekskursii[:2]), int(lead.vremia_ekskursii[3:5]), tz='Europe/Moscow')
-                    date_end = date_begin.add(minutes=90)
-                    info = cntct.name + " " + str(telmail) + "Гид: " + str(gidd) +"\n"+ str(lead.data_ekskursii) + " " + str(lead.vremia_ekskursii) +"\n" + str(int(lead.kol_vo_detei_do_7)) + " детей, " + str(int(lead.kol_vo_do_18)) + " до 18, " + str(int(lead.kol_vo_vzr)) + " взрослых\n" + str(lead.price) + " руб\n" + lead.spiski
-                    event = {
-                        'summary': 'Экскурсия',
-                        'location': 'Университет Иннополис',
-                        'description': info,
-                        'start': {
-                            'dateTime': str(date_begin),
-                            'timeZone': 'Europe/Moscow',
-                        },
-                        'end': {
-                            'dateTime': str(date_end),
-                            'timeZone': 'Europe/Moscow',
-                        },
+                day = e.data_ekskursii[:2]
+                mon = e.data_ekskursii[3:5]
+                ye = e.data_ekskursii[6:10]
+                date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(e.vremia_ekskursii[:2]), int(e.vremia_ekskursii[3:5]), tz='Europe/Moscow')
+                date_end = date_begin.add(minutes=90)
+                info = cntct.name + " " + str(telmail) + "Гид: " + str("Гид") +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
+                event = {
+                    'summary': 'Экскурсия',
+                    'location': 'Университет Иннополис',
+                    'description': info,
+                    'start': {
+                        'dateTime': str(date_begin),
+                        'timeZone': 'Europe/Moscow',
+                    },
+                    'end': {
+                        'dateTime': str(date_end),
+                        'timeZone': 'Europe/Moscow',                        },
                     }
 
-                    event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
+                event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
-                    print('Event created: %s' % (event.get('htmlLink')))
-                except:
-                    print("Что-то пошло не так c календарем")
+                print('Event created: %s' % (event.get('htmlLink')))
         except:
             print("Что-то пошло не так")
             updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
