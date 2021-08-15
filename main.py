@@ -316,7 +316,6 @@ while (True):
                     'dateTime': str(date_end),
                     'timeZone': 'Europe/Moscow',                        },
                 }
-            e.gid = "Гид"
             e.status = 'назначен принимающий гид'
             event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
