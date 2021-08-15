@@ -290,24 +290,23 @@ while (True):
         try:
             cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
             if e.tip_individ.value == "присоединюсь к группе":
-                req = "Новая заявка\n" + "Дата: " + e.data_ekskursii + ", Время: " + e.vremia_ekskursii + "\n" + "к группе\n" + "id заявки:  " + str(e.id)
+                telmail = ""
+                cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
+                for i in cntct._data['custom_fields_values']:
+                    telmail += i['values'][0]['value'] + " "
+                info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
                 print(req)
                 for guide in data['guides']:
                     try:
-                        updater.bot.send_message(guide, req)
+                        updater.bot.send_message(guide, info)
                     except:
                         print(guide, 'плохой id')
                 e.gid = "Гид"
-                cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
-                telmail = ""
-                for i in cntct._data['custom_fields_values']:
-                    telmail += i['values'][0]['value'] + " "
                 day = e.data_ekskursii[:2]
                 mon = e.data_ekskursii[3:5]
                 ye = e.data_ekskursii[6:10]
                 date_begin = pendulum.datetime(int(ye), int(mon), int(day), int(e.vremia_ekskursii[:2]), int(e.vremia_ekskursii[3:5]), tz='Europe/Moscow')
                 date_end = date_begin.add(minutes=90)
-                info = cntct.name + " " + str(telmail) + "Гид: " + str("Гид") +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
                 event = {
                     'summary': 'Экскурсия',
                     'location': 'Университет Иннополис',
@@ -320,7 +319,7 @@ while (True):
                         'dateTime': str(date_end),
                         'timeZone': 'Europe/Moscow',                        },
                     }
-
+                lead.status = 'назначен принимающий гид'
                 event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
                 print('Event created: %s' % (event.get('htmlLink')))
