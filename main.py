@@ -299,7 +299,6 @@ while (True):
                     updater.bot.send_message(guide, info)
                 except:
                     print(guide, 'плохой id')
-            e.gid = "Гид"
             day = e.data_ekskursii[:2]
             mon = e.data_ekskursii[3:5]
             ye = e.data_ekskursii[6:10]
@@ -317,6 +316,7 @@ while (True):
                     'dateTime': str(date_end),
                     'timeZone': 'Europe/Moscow',                        },
                 }
+            e.gid = "Гид"
             e.status = 'назначен принимающий гид'
             event = service.events().insert(calendarId='ge488uhik7rjj44dkbvehaaot4@group.calendar.google.com',
                                                     body=event).execute()
