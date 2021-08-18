@@ -212,7 +212,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-#tokens.default_token_manager.init(code="def50200c26528ab781c1450fe25bc00d5acd5a9871281fc8f2a3dc513e21b5d8652b7fe671c395844ca9c05535679bede28e231aa10121c5560668322af8d1bc2ddaa30a808abaa78cc91cdde46598590f335d428c9cf9a40d7b56dd244f3d10c07ad321f0f115ee6678409a965fe833c2df36bcc58badcfd90b732bcf4683a41f75ae7ec91f321fcb2f1bbc36bb7e375f376d446457187e60f325d1fdaeddc1b15ed134dea09c22d6f2318d902a3f6cfb6d037cc9fcb25347b9a8322cc2200416cc7e35f024ff6c5e35d6217308d5013a3a3a80ea2307948e79960fda4bed575ec03ec3350f8e73d7e92886953aaf5ae5d418110910f5769c447d81a533bb18bea179075b41573365f2e01e25a12fabc746da1ef962cc3d5806ee4da357337d50cdf7cdda404fe9d4a7b732ec44d63c713765f7f934b9129baf4b09d8077b95ac9b47256025ae5bd85d91a57f7e0da56bb36b53054150997c9ca2baa33378db76e128a8bd0182ebd32664004161c170075ef5e87a844209e90058b753e4f1abfc65a3dba8afe8f12da5971ccd4bee57e1a07a3c63b7a3805fd27b669b1a37026e6d835504fea879922317234050b32ab603481bec6db059380b379641c6a2f9a1e9c7859", skip_error=False)
+#tokens.default_token_manager.init(code="def50200b7e02f67d114f6c7f3dcf9a4dcb2c1753c35cc044531709425999faf13f72d213582465279bd6ecddbd51a297b27dd935f4b87da14e47830123c9c93a458829bb9685104203b38ad056920b11d8df472c6f0105f65403d39d1cad66df17e4cc26fcc0d85b82527581c30a4c09118b805a6f918f01f86396ad8e50910bf35244e6a1df1b972ae6d762e61ff846d886c2c3b96528517e09945a329f68fcb4239b0db776f54ab4de4371122c42aae2a25437d1fe6df2d19e04e8a9273a8f0bdacb6d5e20edf5e31acf44e0c0d5363c381561582407c4d4a5c65a591ca8da7ec885b406164a728ac83582b8994b78bc0dc86bcdc7061c1e2438bf3c70224db98e9e317f5a81ead16f5d3f4d72422d20b8b9bdbcd47a0a00fda7e27c164b2034cc88d035ee9d76aef7a5445979549a6c45e8cc2bb1a69ea5810bfe900390d845fdd0db0567201ffb8cb5e45a6df886c851d46d63df8270a6838644890e494fd288bb3ed4be5a9cf4d9976957ce0ecdda14d6c9f862da6306874070b988cd1a651f88b7d7f88f8c29c8165e2482333fd53910354d829dd4978fa78986e427e91dc200c26f5d4dd8e8c0156fee9c10b26425acf330e67f70125718539050c0a7d44dd6a9c", skip_error=False)
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -293,7 +293,7 @@ while (True):
             cntct = Contact.objects.get(object_id=e.contacts._data[0]['id'])
             for i in cntct._data['custom_fields_values']:
                 telmail += i['values'][0]['value'] + " "
-            info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + str(e.price) + " руб\n" + e.spiski
+            info = cntct.name + " " + str(telmail) +"\n"+ str(e.data_ekskursii) + " " + str(e.vremia_ekskursii) +"\n" + str(int(e.kol_vo_detei_do_7)) + " детей, " + str(int(e.kol_vo_do_18)) + " до 18, " + str(int(e.kol_vo_vzr)) + " взрослых\n" + e.spiski
             for guide in data['guides']:
                 try:
                     updater.bot.send_message(guide, info)
