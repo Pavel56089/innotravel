@@ -19,9 +19,14 @@ def start(update: Update, context: CallbackContext) -> None:
     """Sends explanation on how to use the bot."""
     update.message.reply_text('Привет, по поводу экскурсии пиши @innotravel')
 def id(update: Update, context: CallbackContext) -> None:
-    """Sends explanation on how to use the bot."""
     update.message.reply_text(update.message.chat_id)
 
+def update_refresh(update: Update, context: CallbackContext) -> None:
+    f = open('amo_refresh.txt', 'w')
+    f.write(context.args[0])
+    f.close()
+    print("обновили токен")
+    update.message.reply_text("Обновили токен")
 # def catch(update: Update, context: CallbackContext) -> None:
 #     """Add a job to the queue."""
 #     chat_id = update.message.chat_id
@@ -212,7 +217,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
 )
-tokens.default_token_manager.init(code="def5020093cbc73030ed8966fed0217569a0e4bb40704dcd974469a66629159a293f377683874d87b35c9f071db5bc0fdadd2593af5d49d9a7ec2b3200fe543e07dc76b17651f440825a54669a21167ab0b90d03434c31dcad05554549f23c90024116c59790136d8437d13fe6889e87bacb0faa4bcf21fe2e2392329aaab6019223c00af59e2181ecb2debdbf6f3453a78fc6d4df0bd2fce51083da967474fb62f618adb326e14cbe6722e9984bb77a3456249cb64542a8d6faf4ab8e834fdeecc8bdb47a779a253c58f44f63fef373bb9b2ed62c694074d75fb7937b8f408287bf1b5a66576fde6769168c4580dad5c24382ed9ec397530021d927ab668cd877b0822e540ae7be6118cc7b04cf48c9142ac2d9472060d9a6fdc4561b3c312a93e751cc37797c3295d37b1b966d507c22dc3a2e97274084063ca3ae240bf4b73ee86e1bc54fef75335f21d2f4bd8caa2ce2e5d5b9a39555759583ab05af748d76243d6d429cb3e85a82dd80ad39a232fceaa2c9cb167b737c898e4fdcb08f68bedcd30458b34b725671d56f9f7660b9dc3e4f0c28e48feaceea7f264a559c1ce03154160cc7c50b2d05190c8bc81884117453b1317af953d13bed3d4e5a8dc4f3c1394d06", skip_error=True)
+
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -246,12 +251,17 @@ dispatcher = updater.dispatcher
 dispatcher.add_handler(CommandHandler("start", start))
 dispatcher.add_handler(CommandHandler("id", id))
 dispatcher.add_handler(CommandHandler("spisky", spisky))
+dispatcher.add_handler(CommandHandler("updaterefresh", update_refresh))
 updater.start_polling()
 # print("ждем")
 # updater.idle()
 # updater.bot.send_message(186570509, "test")
 tomorrow_old = pendulum.today('Europe/Moscow').format('DD.MM')
 while (True):
+    refresh_file = open('amo_refresh.txt')
+    refresh_code = refresh_file.read()
+    tokens.default_token_manager.init(code=refresh_code, skip_error=True)
+    refresh_file.close()
     #рассчитываем кол-во, счет и время
     leads = Lead.objects.filter(query="Первый контакт")
     statuses = []
