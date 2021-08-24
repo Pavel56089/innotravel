@@ -27,9 +27,10 @@ def update_refresh(update: Update, context: CallbackContext) -> None:
     f.close()
     print("обновили токен")
     update.message.reply_text("Обновили токен")
-    f = open('amo_refresh.txt')
-    f.write(context.args[0])
-    f.close()
+    refresh_file = open('amo_refresh.txt')
+    refresh_code = refresh_file.read()
+    update.message.reply_text(refresh_code)
+    refresh_file.close()
 # def catch(update: Update, context: CallbackContext) -> None:
 #     """Add a job to the queue."""
 #     chat_id = update.message.chat_id
