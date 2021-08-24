@@ -27,6 +27,9 @@ def update_refresh(update: Update, context: CallbackContext) -> None:
     f.close()
     print("обновили токен")
     update.message.reply_text("Обновили токен")
+    f = open('amo_refresh.txt')
+    f.write(context.args[0])
+    f.close()
 # def catch(update: Update, context: CallbackContext) -> None:
 #     """Add a job to the queue."""
 #     chat_id = update.message.chat_id
@@ -260,7 +263,7 @@ tomorrow_old = pendulum.today('Europe/Moscow').format('DD.MM')
 while (True):
     refresh_file = open('amo_refresh.txt')
     refresh_code = refresh_file.read()
-    tokens.default_token_manager.init(code=refresh_code, skip_error=True)
+    tokens.default_token_manager.init(code="def50200005a9e4dd8359f6df90662aab3a6e55512724a343450a12651b0fd8b3efce38711c9c1a97ff7afae5f75aeb2d98f6354c0e0bad8796adbfe890aa8a9d2f85859cd81b38f21bd57600438679499495c29b4f246e2b19ed251982bda9a9b80f6868c2c5d7fc7a9826790de0e80bc692c4a5815acffd3bc6fe736574ed6f57bc8ac1e3bec8c0acdfcb9b8332189798b42b24d147954422cb1ac6cf142c10c79d563dfcd9ce2f9f47222b83f2896ba2405bff98c6e5d09174a804c4c18280dd823dc2ba6bf944b016a20cde093f672f3ab394ae7e10f59e6885e5cab205d675f2d9eab0cbc562e896c25437c9cf45d9745928aba3dfcfb9d7c6c2032409ac1411859e8a71f029ec4459a2f84e6a850bf1aab27450b4d329724828d8e576c74610eb8af0c7ff23f909303088c0ca8c26d98d1b92b8be6e4b5360d18a330b93784cdf926ae97624aa518b7521673c4c9fa665f71ae0a103396ee7110ba4481af14b4dbb0b9794b5af59e38ebadcdf3ecd4b3c9cc73e9b9064a291c3026e5b04777434e6562558669ea79a21f63b8634e2abee8ff014faa37b44a31bcaa386bdb212726af2b86a01628eba3f5d3c396eb5b24004758a747d7b350e758dc4b1c7b420e5dbb", skip_error=True)
     refresh_file.close()
     #рассчитываем кол-во, счет и время
     leads = Lead.objects.filter(query="Первый контакт")
