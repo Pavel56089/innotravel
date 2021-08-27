@@ -221,7 +221,7 @@ tokens.default_token_manager(
     redirect_url="https://innopolistravel.com",
     storage=tokens.FileTokensStorage(), # by default FileTokensStorage
 )
-tokens.default_token_manager.init(code="def50200d6f670d0e14e59bbdfa4a9b2f97288e009ffbd352924c6b950b6c084fb02768721266cf279029361d13f88d1aeb07ced1e489a15ae4e3b80fdc9bbddb456f7657e86d61972ee2379d0ac5f130d4fe2605c8098f090940bcd6b5582a1f0c355091d74afb2140b457f529bc42915787ce5721136b4c1d5af8f72f2a65c8e0aa8bd3f53543fd72a2d3de4a08306a6093148fa28f7e177cc580deb1a72896a2cb00428d6c761291d0a8a48ccf2d702c018101804c73454284dedf5f10043d31403d1895d54800784a0b90a8a60fc4a6caf404735346f9a1aae2eea0977cf23952fea9156022bc4b605820ce4e4eb25e035581f9a6494d2b723f474447b56065a6983d11e0413994efd3050102c577f64c374db82eab6c9e7c580d389445b573d1a6ec51029c848784dd6f9061bcba61b819ce1f1b53ccf7b4ea14f35792dd72af13487b57dc170d9765c8ecc64dfde1028d93c53615bbe4083c78d089619116341dfe755c2b1f116cc0e3775b80a57a6f05a7663b27255ecf23f2ad14e9a197ded2870badaa089572618e35d0152577f1486822bbadd542c05f259f7684f3f4cfdbf229dd6874c853d271f897aeb9cbc2d94e7225d1f608d38d2e4f39b6ace6acf4819", skip_error=True)
+tokens.default_token_manager.init(code="def502004c11e0195114e8c71f6e797c59d2ced1d1ad45614681659adafab36818c390d7d499d98d10a6ee2cf0807828a115c1ecb1bbbd83bea7c75e6852377a8d844c8ad719b37553f3bcbd5efaca7ed992d4ecd4afcbd5417cdb4b263dd9141f57d3c04e29e278b148aa05b0001ffcd042b8e64435c20add9c2c78f2a1dd2d6e430a2987aaae038faa71142a21adc83320013f434d1e7b195adafcb63daa06aa18ffa6cbe880bfd391866f16e8c93f55aaed17d5ef7a387dc8b710204de060aba6cb2aeff0b067d1f42c611b8e4b53aac7ba435c70f3c8cd8d834ee00d393778562655ad46e9c852490a5570290d16a203b517734e5f02411d42e390fc3ca53565da1061c37e23e8e428ffd6a3dd5f8d60200ddbc9552f58fd7127a2b50003588e93bed7622cf5879539dcfd1b3c2fdcecc39541becbf718c115871f2a92cf705b9000792190f5822a15e1b76ff5afeda82c59aabe4d352e0c534a693a6cfec3603b10f14f92033ba8afb007b4b6375bc54d84fec578b1c807aac59b342fa0c4e56392acf7abf524b181c2566682ad5891c5cd7eccbace8c07ac0492e802f5f118a0ae9b3213420dcc3418e84f12fe153c3a309757c4fc6351659d66509bf110d822c087", skip_error=True)
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
@@ -261,6 +261,7 @@ updater.start_polling()
 # updater.bot.send_message(186570509, "test")
 tomorrow_old = pendulum.today('Europe/Moscow').format('DD.MM')
 while (True):
+    updater.bot.send_message(186570509, str("Работаем " + str(datetime.datetime.now())))
     # refresh_file = open('amo_refresh.txt')
     # refresh_code = refresh_file.read()
     # tokens.default_token_manager.init(
@@ -296,7 +297,7 @@ while (True):
                 e.update()
         except:
             print("Что-то пошло не так")
-            updater.bot.send_message(186570509, "Что-то пошло не так", e.id)
+            updater.bot.send_message(186570509, str("Что-то пошло не так" + str(e.id)))
 
     #рассылаем уведомления и ищем гидов
     leads = Lead.objects.filter(query="согласованы дата и время")
@@ -348,6 +349,7 @@ while (True):
                 e.update()
         except:
             print("что-то пошло не так в в переносе из принимающего гида в списки")
+            updater.bot.send_message(186570509, str("Что-то пошло не так в в переносе из принимающего гида в списки"))
     for i in range (0, 6):
         time.sleep(60*10)
         print("pause")
